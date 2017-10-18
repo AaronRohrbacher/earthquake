@@ -1,6 +1,7 @@
 
 $(document).ready(function() {
   $('.input').submit(function(event) {
+    $('#earthquake').text("")
     event.preventDefault();
     let search = $('#search').val();
 
@@ -25,7 +26,7 @@ $(document).ready(function() {
 
     let promise2 = new Promise(function(resolve, reject) {
       let request = new XMLHttpRequest();
-      let url = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&longitude=${lng}&latitude=${lat}&maxradius=.5`;
+      let url = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&longitude=${lng}&latitude=${lat}&maxradius=.5&starttime=2017-01-01`;
       request.onload = function() {
         if (this.status === 200) {
           resolve(request.response);
@@ -44,7 +45,7 @@ $(document).ready(function() {
         $('#earthquake').append(`<tr><td>${earthquake.properties.place}</td><td>${new Date(earthquake.properties.time)}</td><td>${earthquake.properties.mag}</td><td>${earthquake.properties.tsunami}</td></tr> `)
       });
     } else {
-      $('#earthquake').text("Tain't no dirt movin'")
+      $('#earthquake').text("Tain't no dirt movin'");
 
     }
       }, function(error) {
