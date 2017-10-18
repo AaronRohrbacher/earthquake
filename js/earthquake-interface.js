@@ -17,35 +17,45 @@ $(document).ready(function() {
     request.open("GET", url, true);
     request.send();
   });
-  //
-  // promise.then(function(response) {
-  //   let body = JSON.parse(response);
-  //   $('#earthquake').text(body.features[0].properties.place);
-  //   }, function(error) {
-  //   $('#showErrors').text(`There was an error processing your request: ${error.message}`);
-  // });
-  //
-  // let promise2 = new Promise(function(resolve, reject) {
-  //   let request = new XMLHttpRequest();
-  //   let url = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2017-10-11`;
-  //   request.onload = function() {
-  //     if (this.status === 200) {
-  //       resolve(request.response);
-  //     } else {
-  //       reject(Error(request.statusText));
-  //     }
-  //   }
-  //   request.open("GET", url, true);
-  //   request.send();
-  // });
-  //
-  // $('#earthquake').text(body.features[0].properties.place);
+
   promise1.then(function(response) {
     let body = JSON.parse(response);
-    $('#earthquake').text(body.results[0].geometry.location.lat);
-    console.log(body.results[0].geometry.location.lat);
-    }, function(error) {
-    $('#showErrors').text(`There was an error processing your request: ${error.message}`);
+    let lat = body.results[0].geometry.location.lat;
+    let lng = body.results[0].geometry.location.lng;
+
+    let promise2 = new Promise(function(resolve, reject) {
+      let request = new XMLHttpRequest();
+      let url = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&longitude=${lng}&latitude=${lat}&maxradius=.5`;
+      request.onload = function() {
+        if (this.status === 200) {
+          resolve(request.response);
+        } else {
+          reject(Error(request.statusText));
+        }
+      }
+      request.open("GET", url, true);
+      request.send();
     });
+
+    promise2.then(function(response) {
+      let body = JSON.parse(response);
+      if (body.features.length > 0) {
+      body.features.forEach(function(earthquake) {
+        $('#earthquake').append(`<tr><td>${earthquake.properties.place}</td><td>${new Date(earthquake.properties.time)}</td><td>${earthquake.properties.mag}</td><td>${earthquake.properties.tsunami}</td></tr> `)
+      });
+    } else {
+      $('#earthquake').text("Tain't no dirt movin'")
+
+    }
+      }, function(error) {
+      $('#showErrors').text(`Go to hell: ${error.message}`);
+    });
+
+  }, function(error) {
+    $('#showErrors').text(`Hell won't take you: ${error.message}`);
+  });
+
+  // $('#earthquake').text(body.features[0].properties.place);
+
   });
 });
