@@ -7,21 +7,42 @@
     <script type="text/javascript" src="build/js/app.js"></script>
   </head>
   <body>
-    <form class="input" action="index.html">
-      <input type="text" id="search">Search for Earthquakes!</input>
-      <button type="submit" name="button">TREMORS</button>
-    </form>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Location</th>
-          <th>Time</th>
-          <th>Magnitude</th>
-          <th>Giant Wave</th>
-        </tr>
-      </thead>
-      <tbody id="earthquake">
-      </tbody>
-    </table>
+    <div class="container">
+      <div class="row">
+        <form class="input" action="index.html">
+          <label for= "startDate">Start Date</label>
+          <input type ="date" id = "startDate">
+          <label for= "endDate">End Date</label>
+          <input type ="date" id ="endDate">
+          <label for="search">Enter a city</search>
+          <input type="text" id="search">
+          <button type="submit" name="button">TREMORS</button>
+          <select id="sort">
+            <option value="time">Sort by Newest First </option>
+            <option value="time-asc">Sort by Oldest First</option>
+            <option value="magnitude">Sort by Hardest Quakes</option>
+            <option value="magnitude-asc">Sort by Limpest Quakes</option>
+          </select>
+        </form>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th>Time</th>
+              <th>Magnitude</th>
+              <th>Giant Wave</th>
+              <th>Alert Level</th>
+              <th>DYFI</th>
+            </tr>
+          </thead>
+          <tbody id="earthquake">
+          </tbody>
+        </table>
+      </div>
+    </div>
   </body>
 </html>
