@@ -22,9 +22,20 @@ $(document).ready(function() {
       quakeQuery.then(function(response) {
         $('#earthquake').text('')
         let body = JSON.parse(response);
+        let color;
         if (body.features.length > 0) {
         body.features.forEach(function(earthquake) {
-          $('#earthquake').append(`<tr><td>${earthquake.properties.place}</td><td>${new Date(earthquake.properties.time)}</td><td>${earthquake.properties.mag}</td><td>${earthquake.properties.tsunami}</td><td>${earthquake.properties.alert}</td><td>${earthquake.properties.felt}</td></tr> `)
+          alert = earthquake.properties.alert
+          if (alert === null) {
+            color = "#e8e6ce"
+          } else if (alert === "green") {
+            color = "green"
+          } else if (color === "orange") {
+            color = "orange"
+          } else {
+            color = "red"
+          }
+          $('#earthquake').append(`<tr><td>${earthquake.properties.place}</td><td>${new Date(earthquake.properties.time)}</td><td>${earthquake.properties.mag}</td><td>${earthquake.properties.tsunami}</td><td style = 'background-color:${color};'>${earthquake.properties.alert}</td><td>${earthquake.properties.felt}</td></tr> `)
         });
       } else {
         $('#earthquake').text("Tain't no dirt movin'");
