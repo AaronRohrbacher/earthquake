@@ -9,7 +9,7 @@ $(document).ready(function() {
     let startDate = $('#startDate').val();
     let endDate = $('#endDate').val();
     let sort = $('#sort').val();
-    let javi = new TremorTron(search, startDate, endDate, sort);
+    let javi = new TremorTron;
     let searchQuery = javi.callApiSearch(search);
 
     searchQuery.then(function(response) {
